@@ -1,6 +1,8 @@
 #!/bin/bash
 #Author: Joshua Kroger
 #https://github.com/ProbieK/
+
+#Do help stuff
 if [ "$1" == "-h" ]
 then
     echo ""
@@ -31,6 +33,8 @@ then
     echo ''
 	exit 0
 fi
+
+#Set Default Values
 if [ -z "$2" ]; then
     char='graph'
 else
@@ -53,14 +57,16 @@ elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
     HOSTOS='WIN64'
 fi
 
+#The meat and potatos of this password generator
 var=$(strings - /dev/urandom | grep -o "[[:"$char":]]" | head -n "$num" | tr -d '\n')
 echo "$var"
 
-#copy password to clipboard on Mac OSX
+#Copy password to clipboard on MacOS
 if [ $HOSTOS == "MACOS" ]; then
   printf '%s' "$var" | pbcopy
 fi
 
+#Copy password to clipboard on Linux hosts with xclip
 if [ $HOSTOS == LINUX ]; then
   if command -v xclip > /dev/null; then
     printf '%s' "$var" | xclip -selection c
