@@ -41,5 +41,22 @@ if [ -z "$1" ]; then
 else
     num="$1"
 fi
+
+#Detect OS for later special uses
+if [ "$(uname)" == "Darwin" ]; then
+    HOSTOS='MACOS'
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    HOSTOS='LINUX'
+elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+    HOSTOS='WIN32'
+elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
+    HOSTOS='WIN64'
+fi
+
 var=$(strings - /dev/urandom | grep -o "[[:"$char":]]" | head -n "$num" | tr -d '\n')
 echo "$var"
+
+#copy password to clipboard on Mac OSX
+if [ $HOSTOS == "MACOS" ]; then
+  printf '%s' "$var" | pbcopy
+fi
