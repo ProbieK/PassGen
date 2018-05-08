@@ -41,7 +41,8 @@ else
     char="$2"
 fi
 if [ -z "$1" ]; then
-    num='20'
+    #POSIX compliant min/max character generation
+    num=$(awk -v min=10 -v max=20 'BEGIN{srand(); print int(min+rand()*(max-min+1))}')
 else
     num="$1"
 fi
