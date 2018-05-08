@@ -60,3 +60,11 @@ echo "$var"
 if [ $HOSTOS == "MACOS" ]; then
   printf '%s' "$var" | pbcopy
 fi
+
+if [ $HOSTOS == LINUX ]; then
+  if command -v xclip > /dev/null; then
+    printf '%s' "$var" | xclip -selection c
+  else
+    echo "If you install xclip, I can copy the password right to your clipboard!"
+  fi
+fi
