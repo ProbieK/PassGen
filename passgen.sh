@@ -43,7 +43,7 @@ else
 fi
 
 if echo "test123!@#" | grep -o "[[:${char}:]]" 1>/dev/null; then # Check that $char is a valid value
-    var=$(strings - /dev/urandom | grep -o "[[:"$char":]]" | head -n "$num" | tr -d '\n')
+    var=$(strings - /dev/urandom | grep -o "[[:${char}:]]" | head -n "$num" | tr -d '\n')
     echo "$var"
 else
     echo "Problem generating password. Is $char a valid character set?"
