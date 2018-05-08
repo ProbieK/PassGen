@@ -43,3 +43,5 @@ else
 fi
 var=$(strings - /dev/urandom | grep -o "[[:"$char":]]" | head -n "$num" | tr -d '\n')
 echo "$var"
+#copy password to clipboard on Mac OSX
+printf '%s' "$var" | pbcopy
