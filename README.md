@@ -15,6 +15,14 @@ or
 ### Sample Output:    
 @hA}x8GQtNJ6u_)0    
 
+### Command Line Options:    
+| Command Switch | Effect |
+| --- | --- |
+| -h or --help | Shows help and exits |
+| -n or --number	| Modifies the length of the password |
+| -c or --char	| Modifies the character set |
+| -m or --mute	| Mutes all optional terminal output |    
+
 ### Charactor Set Options:    
 | Variable | Charset |
 | --- | --- |

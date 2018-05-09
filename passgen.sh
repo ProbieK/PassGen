@@ -20,6 +20,12 @@ function show_help {
     echo "Sample Output:"
     echo "@hA}x8GQtNJ6u_)0"
     echo ""
+    echo "Command Line Options:"
+    echo "-h or --help		Shows help and exits"
+    echo "-n or --number		Modifies the length of the password"
+    echo "-c or --char		Modifies the character set"
+    echo "-m or --mute		Mutes all optional terminal output"
+    echo ""
     echo "Charactor Set Options:"
     echo 'digit		Digits: 0-9'
     echo 'lower		Lower-case letters: a-z'
@@ -30,6 +36,7 @@ function show_help {
     echo 'graph		Graphical characters: alnum and punct'
     echo 'print		Printable characters: alnum, punct, and space'
     echo ''
+    exit 0
 }
 
 #Set Default Values
