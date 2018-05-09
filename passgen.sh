@@ -40,6 +40,8 @@ function show_help {
 }
 
 #Set Default Values
+NC='\033[0m'
+CYAN='\033[0;36m'
 mute='false'
 char='graph'
 num=$(awk -v min=10 -v max=20 'BEGIN{srand(); print int(min+rand()*(max-min+1))}')
@@ -96,12 +98,11 @@ fi
 if [ $mute == "false" ]; then
   echo "Password Length:  $num"
   echo "Password Charset: $char"
-  echo ""
 fi
 
 #The meat and potatos of this password generator
 var=$(strings - /dev/urandom | grep -o "[[:"$char":]]" | head -n "$num" | tr -d '\n')
-echo "$var"
+echo -e "${CYAN}$var${NC}"
 
 #Copy password to clipboard on MacOS
 if [ $HOSTOS == "MACOS" ]; then
