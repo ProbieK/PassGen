@@ -3,8 +3,7 @@
 #https://github.com/ProbieK/
 
 #Do help stuff
-if [ "$1" == "-h" ]
-then
+function show_help {
     echo ""
     echo "Usage:"
     echo "$ ./passgen.sh [char count] [charset]"
@@ -31,21 +30,42 @@ then
     echo 'graph		Graphical characters: alnum and punct'
     echo 'print		Printable characters: alnum, punct, and space'
     echo ''
-	exit 0
-fi
+}
 
 #Set Default Values
-if [ -z "$2" ]; then
-    char='graph'
-else
-    char="$2"
-fi
-if [ -z "$1" ]; then
-    #POSIX compliant min/max character generation
-    num=$(awk -v min=10 -v max=20 'BEGIN{srand(); print int(min+rand()*(max-min+1))}')
-else
-    num="$1"
-fi
+mute='false'
+char='graph'
+num=$(awk -v min=10 -v max=20 'BEGIN{srand(); print int(min+rand()*(max-min+1))}')
+
+#Parse Command Line Options
+ARGS=( "$@" )
+for i in "${!ARGS[@]}"; do
+        case "${ARGS[i]}" in
+                '')
+                                continue
+                        ;;
+                -h|--help)     show_help
+                        ;;
+                -n|--number)
+                                num="${ARGS[i+1]}"
+                                unset 'ARGS[i+1]'
+                        ;;
+                -c|--char)
+                                char="${ARGS[i+1]}"
+                                unset 'ARGS[i+1]'
+                        ;;
+                -m|--mute)      mute='true'
+                        ;;
+                --)
+                                unset 'ARGS[i]'
+                                break
+                        ;;
+                *)
+                                continue
+                        ;;
+        esac
+        unset 'ARGS[i]'
+done
 
 #Detect OS for later special uses
 if [ "$(uname)" == "Darwin" ]; then
@@ -68,10 +88,12 @@ if [ $HOSTOS == "MACOS" ]; then
 fi
 
 #Copy password to clipboard on Linux hosts with xclip
-if [ $HOSTOS == LINUX ]; then
+if [ $HOSTOS == "LINUX" ]; then
   if command -v xclip > /dev/null; then
     printf '%s' "$var" | xclip -selection c
   else
-    echo "If you install xclip, I can copy the password right to your clipboard!"
+    if [ $mute == "false" ]; then
+      echo "If you install xclip, I can copy the password right to your clipboard!"
+    fi
   fi
 fi
