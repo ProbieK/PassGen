@@ -92,6 +92,13 @@ if [[ ! " ${charsets[@]} " =~ " $char " ]]; then
   exit 1
 fi
 
+#Password Stats
+if [ $mute == "false" ]; then
+  echo "Password Length:  $num"
+  echo "Password Charset: $char"
+  echo ""
+fi
+
 #The meat and potatos of this password generator
 var=$(strings - /dev/urandom | grep -o "[[:"$char":]]" | head -n "$num" | tr -d '\n')
 echo "$var"
