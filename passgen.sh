@@ -21,7 +21,7 @@ function show_help {
     echo "@hA}x8GQtNJ6u_)0"
     echo ""
     echo "Command Line Options:"
-    echo "-h or --help		Shows help and exits"
+    echo "-h or --help		Shows this help and exits"
     echo "-n or --number		Modifies the length of the password"
     echo "-c or --char		Modifies the character set"
     echo "-m or --mute		Mutes all optional terminal output"
