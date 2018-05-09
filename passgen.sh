@@ -78,6 +78,13 @@ elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
     HOSTOS='WIN64'
 fi
 
+#Error Checking
+charsets=( digit lower upper alpha alnum punct graph print )
+if [[ ! " ${charsets[@]} " =~ " $char " ]]; then
+  echo "Charset not recognized! Aborting!"
+  exit 1
+fi
+
 #The meat and potatos of this password generator
 var=$(strings - /dev/urandom | grep -o "[[:"$char":]]" | head -n "$num" | tr -d '\n')
 echo "$var"
