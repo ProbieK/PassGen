@@ -21,7 +21,9 @@ or
 | -h or --help | Shows help and exits |
 | -n or --number	| Modifies the length of the password |
 | -c or --char	| Modifies the character set |
-| -m or --mute	| Mutes all optional terminal output |    
+| -s or --silent	| Silences all optional terminal output |    
+| -m or --min	| Sets the minimum length of the password (must be used with --max or unexpected lengths will result) |
+| -n or --max	| Sets the maximum length of the password |
 
 ### Charactor Set Options:    
 | Variable | Charset |
@@ -38,5 +40,7 @@ or
 ### Recommendation:    
 Add an entry in your .bashrc file to alias this command so that it can be run from anywhere.    
 `alias passgen="/path/to/script/passgen.sh"`   
+Or, if you want to use the output in another script:  
+`myvar=$(/path/to/script/passgen.sh -s)`
 ##### In any terminal window type:    
 `passgen`    

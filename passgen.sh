@@ -18,13 +18,17 @@ function show_help {
     echo "$ ./passgen.sh -n 16 -c graph"
     echo ""
     echo "Sample Output:"
+    echo "Password Length:  16"
+    echo "Password Charset: graph"
     echo "@hA}x8GQtNJ6u_)0"
     echo ""
     echo "Command Line Options:"
-    echo "-h or --help		Shows this help and exits"
-    echo "-n or --number		Modifies the length of the password"
-    echo "-c or --char		Modifies the character set"
-    echo "-m or --mute		Mutes all optional terminal output"
+    echo "-h or --help      Shows this help and exits"
+    echo "-n or --number    Modifies the length of the password"
+    echo "-c or --char      Modifies the character set"
+    echo "-s or --silent    Silences all optional terminal output"
+    echo "-m or --min       Sets the minimum length of the password (must be used with --max or unexpected lengths will result)"
+    echo "-n or --max       Sets the maximum length of the password"
     echo ""
     echo "Charactor Set Options:"
     echo 'digit		Digits: 0-9'
@@ -42,9 +46,14 @@ function show_help {
 #Set Default Values
 NC='\033[0m'
 CYAN='\033[0;36m'
-mute='false'
+silent='false'
 char='graph'
-num=$(awk -v min=10 -v max=20 'BEGIN{srand(); print int(min+rand()*(max-min+1))}')
+num_min='10'
+num_max='20'
+
+function set_min_max {
+num=$(awk -v min=$num_min -v max=$num_max 'BEGIN{srand(); print int(min+rand()*(max-min+1))}')
+}
 
 #Parse Command Line Options
 ARGS=( "$@" )
@@ -53,7 +62,8 @@ for i in "${!ARGS[@]}"; do
                 '')
                                 continue
                         ;;
-                -h|--help)     show_help
+                -h|--help)
+                                show_help
                         ;;
                 -n|--number)
                                 num="${ARGS[i+1]}"
@@ -63,7 +73,16 @@ for i in "${!ARGS[@]}"; do
                                 char="${ARGS[i+1]}"
                                 unset 'ARGS[i+1]'
                         ;;
-                -m|--mute)      mute='true'
+                -s|--silent)
+                                silent='true'
+                        ;;
+                -m|--min)
+                                num_min="${ARGS[i+1]}"
+                                unset 'ARGS[i+1]'
+                        ;;
+                -n|--max)
+                                num_max="${ARGS[i+1]}"
+                                unset 'ARGS[i+1]'
                         ;;
                 --)
                                 unset 'ARGS[i]'
@@ -94,15 +113,23 @@ if [[ ! " ${charsets[@]} " =~ " $char " ]]; then
   exit 1
 fi
 
+#Set min and max length values
+set_min_max
+
 #Password Stats
-if [ $mute == "false" ]; then
+if [ $silent == "false" ]; then
   echo "Password Length:  $num"
   echo "Password Charset: $char"
 fi
 
 #The meat and potatos of this password generator
 var=$(strings - /dev/urandom | grep -o "[[:"$char":]]" | head -n "$num" | tr -d '\n')
-echo -e "${CYAN}$var${NC}"
+#If the generated password ends in a '\' then the '\' is escaped
+if [[ "$var" =~ '\'$ ]]; then
+  echo -e "${CYAN}$var\\${NC}"
+else
+  echo -e "${CYAN}$var${NC}"
+fi
 
 #Copy password to clipboard on MacOS
 if [ $HOSTOS == "MACOS" ]; then
@@ -114,7 +141,7 @@ if [ $HOSTOS == "LINUX" ]; then
   if command -v xclip > /dev/null; then
     printf '%s' "$var" | xclip -selection c
   else
-    if [ $mute == "false" ]; then
+    if [ $silent == "false" ]; then
       echo "If you install xclip, I can copy the password right to your clipboard!"
     fi
   fi
