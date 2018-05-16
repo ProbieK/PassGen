@@ -13,6 +13,8 @@ or
 `$ ./passgen.sh -n 16 -c graph`    
 
 ### Sample Output:    
+Password Length:  16  
+Password Charset: graph  
 @hA}x8GQtNJ6u_)0    
 
 ### Command Line Options:    
