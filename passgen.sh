@@ -2,6 +2,23 @@
 #Author: Joshua Kroger
 #https://github.com/ProbieK/
 
+#Set Default Values
+silent='false'
+char='graph'
+num_min='10'
+num_max='20'
+
+#Detect OS for later special uses
+if [ "$(uname)" == "Darwin" ]; then
+    HOSTOS='MACOS'
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    HOSTOS='LINUX'
+elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+    HOSTOS='WIN32'
+elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
+    HOSTOS='WIN64'
+fi
+
 #Do help stuff
 function show_help {
     echo ""
@@ -42,12 +59,6 @@ function show_help {
     echo ''
     exit 0
 }
-
-#Set Default Values
-silent='false'
-char='graph'
-num_min='10'
-num_max='20'
 
 function set_min_max {
 num=$(awk -v min=$num_min -v max=$num_max 'BEGIN{srand(); print int(min+rand()*(max-min+1))}')
@@ -96,17 +107,6 @@ for i in "${!ARGS[@]}"; do
         unset 'ARGS[i]'
 done
 
-#Detect OS for later special uses
-if [ "$(uname)" == "Darwin" ]; then
-    HOSTOS='MACOS'
-elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-    HOSTOS='LINUX'
-elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
-    HOSTOS='WIN32'
-elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
-    HOSTOS='WIN64'
-fi
-
 #Error Checking
 charsets=( digit lower upper alpha alnum punct graph print )
 if [[ ! " ${charsets[@]} " =~ " $char " ]]; then
@@ -128,8 +128,8 @@ if [ "$num_max_flag" == '1' ]; then
   fi
 fi
 
-#Set min and max length values
-if [ ! "$num_flag" == 1 ]; then
+#Set min and max length values if it wasn't explicitly defined
+if [ ! "$num_flag" == '1' ]; then
   set_min_max
 fi
 
