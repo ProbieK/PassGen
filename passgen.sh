@@ -65,6 +65,7 @@ for i in "${!ARGS[@]}"; do
                         ;;
                 -n|--number)
                                 num="${ARGS[i+1]}"
+                                num_flag='1'
                                 unset 'ARGS[i+1]'
                         ;;
                 -c|--char)
@@ -76,10 +77,12 @@ for i in "${!ARGS[@]}"; do
                         ;;
                 -m|--min)
                                 num_min="${ARGS[i+1]}"
+                                num_min_flag='1'
                                 unset 'ARGS[i+1]'
                         ;;
-                -n|--max)
+                -x|--max)
                                 num_max="${ARGS[i+1]}"
+                                num_max_flag='1'
                                 unset 'ARGS[i+1]'
                         ;;
                 --)
@@ -110,9 +113,25 @@ if [[ ! " ${charsets[@]} " =~ " $char " ]]; then
   echo "Charset not recognized! Aborting!"
   exit 1
 fi
+if [ "$num_min_flag" == '1' ]; then
+  if [ ! "$num_max_flag" == '1' ]; then
+    echo "When you set a minimum number, a maximum must also be used."
+    echo "Aborting!"
+    exit 1
+  fi
+fi
+if [ "$num_max_flag" == '1' ]; then
+  if [ ! "$num_min_flag" == '1' ]; then
+    echo "When you set a maximum number, a minimum must also be used."
+    echo "Aborting!"
+    exit 1
+  fi
+fi
 
 #Set min and max length values
-set_min_max
+if [ ! "$num_flag" == 1 ]; then
+  set_min_max
+fi
 
 #Password Stats
 if [ $silent == "false" ]; then
