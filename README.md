@@ -25,7 +25,7 @@ Password Charset: graph
 | -c or --char	| Modifies the character set |
 | -s or --silent	| Silences all optional terminal output |    
 | -m or --min	| Sets the minimum length of the password (must be used with --max or unexpected lengths will result) |
-| -n or --max	| Sets the maximum length of the password |
+| -x or --max	| Sets the maximum length of the password |
 
 ### Charactor Set Options:    
 | Variable | Charset |

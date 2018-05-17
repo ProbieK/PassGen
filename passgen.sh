@@ -45,7 +45,7 @@ function show_help {
     echo "-c or --char      Modifies the character set"
     echo "-s or --silent    Silences all optional terminal output"
     echo "-m or --min       Sets the minimum length of the password (must be used with --max or unexpected lengths will result)"
-    echo "-n or --max       Sets the maximum length of the password"
+    echo "-x or --max       Sets the maximum length of the password"
     echo ""
     echo "Charactor Set Options:"
     echo 'digit		Digits: 0-9'
