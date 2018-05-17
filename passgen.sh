@@ -44,8 +44,6 @@ function show_help {
 }
 
 #Set Default Values
-NC='\033[0m'
-CYAN='\033[0;36m'
 silent='false'
 char='graph'
 num_min='10'
@@ -124,12 +122,7 @@ fi
 
 #The meat and potatos of this password generator
 var=$(strings - /dev/urandom | grep -o "[[:"$char":]]" | head -n "$num" | tr -d '\n')
-#If the generated password ends in a '\' then the '\' is escaped
-if [[ "$var" =~ '\'$ ]]; then
-  echo -e "${CYAN}$var\\${NC}"
-else
-  echo -e "${CYAN}$var${NC}"
-fi
+printf '\033[0;36m%s\033[0m\n' "$var"
 
 #Copy password to clipboard on MacOS
 if [ $HOSTOS == "MACOS" ]; then
