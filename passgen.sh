@@ -4,6 +4,7 @@
 
 #Set Default Values
 silent='false'
+GUI='false'
 char='graph'
 num_min='10'
 num_max='20'
@@ -17,6 +18,14 @@ elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
     HOSTOS='WIN32'
 elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
     HOSTOS='WIN64'
+fi
+
+#Detect if script is running in a GUI or not
+if [ "$DISPLAY" ]; then
+  echo "Running in a GUI!"
+  GUI='true'
+else
+  echo "NOT running in a GUI!"
 fi
 
 #Do help stuff
@@ -151,7 +160,9 @@ fi
 #Copy password to clipboard on Linux hosts with xclip
 if [ $HOSTOS == "LINUX" ]; then
   if command -v xclip > /dev/null; then
-    printf '%s' "$var" | xclip -selection c
+    if [ $GUI == "true" ]; then
+      printf '%s' "$var" | xclip -selection c
+    fi
   else
     if [ $silent == "false" ]; then
       echo "If you install xclip, I can copy the password right to your clipboard!"
