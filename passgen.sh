@@ -6,8 +6,8 @@
 silent='false'
 GUI='false'
 char='graph'
-num_min='10'
-num_max='20'
+num_min='16'
+num_max='24'
 
 #Detect OS for later special uses
 if [ "$(uname)" == "Darwin" ]; then
