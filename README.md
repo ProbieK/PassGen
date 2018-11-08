@@ -3,7 +3,7 @@
 `$ sudo chmod +x ./passgen.sh`    
 `$ ./passgen.sh [option] [value]`    
 You may call the script without flags and it will generate a password  
-between 10 and 20 characters long in the "graph" character set.   
+between 16 and 24 characters long in the "graph" character set.   
 
 ### Example:    
 `$ ./passgen.sh`    

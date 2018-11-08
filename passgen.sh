@@ -34,7 +34,7 @@ function show_help {
     echo "Usage:"
     echo "$ ./passgen.sh [option] [value]"
     echo "You may call the script without flags and it will generate a password"
-    echo "between 10 and 20 characters long in the \"graph\" character set."
+    echo "between 16 and 24 characters long in the \"graph\" character set."
     echo ""
     echo "Example:"
     echo "$ ./passgen.sh"
