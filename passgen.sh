@@ -22,10 +22,7 @@ fi
 
 #Detect if script is running in a GUI or not
 if [ "$DISPLAY" ]; then
-    echo "Running in a Linux GUI!"
     GUI='true'
-else
-    echo "Not running in a Linux GUI"
 fi
 
 #Do help stuff
