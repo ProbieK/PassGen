@@ -21,11 +21,11 @@ elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
 fi
 
 #Detect if script is running in a GUI or not
-if [ "$TERM" == "linux" ]; then
-  echo "NOT running in a GUI!"
-else
-  echo "Running in a GUI!"
+if [ "$DISPLAY" ]; then
+  echo "Running in a Linux GUI!"
   GUI='true'
+else
+  echo "Not running in a Linux GUI"
 fi
 
 #Do help stuff
