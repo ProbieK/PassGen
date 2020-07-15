@@ -6,6 +6,7 @@
 silent='false'
 GUI='false'
 char='graph'
+engine='perl'
 num_min='16'
 num_max='24'
 
@@ -52,6 +53,9 @@ function show_help {
     echo "-s or --silent    Silences all optional terminal output"
     echo "-m or --min       Sets the minimum length of the password (must be used with --max or unexpected lengths will result)"
     echo "-x or --max       Sets the maximum length of the password"
+    echo "-g or --grep      Uses grep as the engine to select random characters"
+    echo "-p or --perl      Uses perl as the engine to select random characters"
+    echo "(perl is the defualt engine)"
     echo ""
     echo "Charactor Set Options:"
     echo 'digit		Digits: 0-9'
@@ -79,6 +83,16 @@ for i in "${!ARGS[@]}"; do
             ;;
         -h|--help)
             show_help
+            ;;
+        -g|--grep)
+            num="${ARGS[i+1]}"
+            engine='grep'
+            unset 'ARGS[i+1]'
+            ;;
+        -p|--perl)
+            num="${ARGS[i+1]}"
+            engine='perl'
+            unset 'ARGS[i+1]'
             ;;
         -n|--number)
             num="${ARGS[i+1]}"
@@ -146,7 +160,16 @@ if [ $silent == "false" ]; then
 fi
 
 #The meat and potatos of this password generator
-var=$(strings - /dev/urandom | grep -o "[[:"$char":]]" | head -n "$num" | tr -d '\n')
+if [ "$engine" == "grep" ]; then
+  var=$(strings - /dev/urandom | grep -o "[[:"$char":]]" | head -n "$num" | tr -d '\n')
+elif [ "$engine" == "perl" ]; then
+  var=$(strings - /dev/urandom | perl -p -e "s/[^[:"$char":]]//g" | head -c "$num" | tr -d '\n' )
+else
+  echo "No engine selected! How did you manage that?"
+  echo "Exiting"
+  exit 0
+fi
+echo "Engine: $engine"
 printf '\033[0;36m%s\033[0m\n' "$var"
 
 #Copy password to clipboard on MacOS
