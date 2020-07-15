@@ -26,6 +26,8 @@ Password Charset: graph
 | -s or --silent	| Silences all optional terminal output |    
 | -m or --min	| Sets the minimum length of the password (must be used with --max or unexpected lengths will result) |
 | -x or --max	| Sets the maximum length of the password |
+| -g or --grep | Uses grep as the engine to select random characters |
+| -p or --perl | Uses perl as the engine to select random characters (default engine) |
 
 ### Charactor Set Options:    
 | Variable | Charset |
