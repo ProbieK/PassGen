@@ -42,8 +42,10 @@ Password Charset: graph
 | print	| Printable characters: alnum, punct, and space |    
 
 ### Recommendation:    
-Add an entry in your .bashrc file to alias this command so that it can be run from anywhere.    
+Add an entry in your .bashrc or .bash_profile file to alias this command so that it can be run from anywhere.    
 `alias passgen="/path/to/script/passgen.sh"`   
+Don't forget to run the following (or similar):  
+`source ~/.bash_profile`
 Or, if you want to use the output in another script:  
 `myvar=$(/path/to/script/passgen.sh -s)`
 ##### In any terminal window type:    
