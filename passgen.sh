@@ -11,6 +11,7 @@ num_min='16'
 num_max='24'
 
 #Detect OS for later special uses
+#(coming soon: native bash on WSL support)
 if [ "$(uname)" == "Darwin" ]; then
     HOSTOS='MACOS'
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
